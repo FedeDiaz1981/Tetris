@@ -20,12 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-!x@(_dpczgdzhq^(vksb8crjal1x!4bj0m8%mf&mp9^m2a73@q'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'insecure-default')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "127.0.0.1,localhost,tetris-yp8d.onrender.com").split(",")
+ALLOWED_HOSTS = ['.onrender.com']
 
 
 # Application definition
@@ -116,9 +116,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
+
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'tetris/static')]  # Directorio de archivos estáticos
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Directorio donde se recopilarán
+STATIC_ROOT = os.path.join(BASE_DIR, 'static') # Directorio donde se recopilarán
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

@@ -1,0 +1,1 @@
+web: gunicorn tetris_project.wsgi:application
