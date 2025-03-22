@@ -13,7 +13,7 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,7 +25,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'insecure-default')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['.onrender.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.onrender.com']
 
 
 # Application definition
@@ -118,8 +118,12 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'tetris/static')]  # Directorio de archivos estáticos
-STATIC_ROOT = os.path.join(BASE_DIR, 'static') # Directorio donde se recopilarán
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'tetris/static/'),
+]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Para producción
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
