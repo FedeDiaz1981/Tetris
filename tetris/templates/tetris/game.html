@@ -381,17 +381,5 @@
         update();
       });
     </script>
-    <audio id="background-audio" loop autoplay>
-      <source src="{% static 'tetris/music.mp3' %}" type="audio/mpeg" />
-      Tu navegador no soporta audio.
-    </audio>
-    <script>
-      document.addEventListener('click', () => {
-        const audio = document.getElementById('background-audio');
-        if (audio && audio.paused) {
-          audio.play().catch(e => console.log('Autoplay bloqueado'));
-        }
-      }, { once: true });
-    </script>
   </body>
 </html>
