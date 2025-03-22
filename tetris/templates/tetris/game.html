@@ -69,6 +69,47 @@
         transform: scale(1.5);
         color: #ffeb3b;
       }
+
+      @media (min-width: 768px) {
+  .mobile-controls {
+    display: none;
+  }
+}
+
+.control-btn {
+  background: #222;
+  border: none;
+  border-radius: 12px;
+  padding: 18px 22px;
+  font-size: 28px;
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+  color: white;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.control-btn:hover {
+  background: #444;
+  transform: scale(1.1);
+}
+
+.control-btn:active {
+  transform: scale(0.9);
+  box-shadow: 0 2px 6px rgba(255, 255, 255, 0.3);
+}
+
+.control-btn span {
+  display: inline-block;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+}
     </style>
   </head>
   <body>
@@ -78,6 +119,12 @@
           <h2 class="mb-3">🎮 TETRIS by FD🎮</h2>
           <p class="score" id="score">Puntuación: 0</p>
           <canvas id="tetrisCanvas" width="300" height="600"></canvas>
+          <div class="mobile-controls mt-4 d-flex flex-wrap justify-content-center gap-3">
+            <button id="btn-left" class="control-btn"><span>⬅️</span></button>
+            <button id="btn-down" class="control-btn"><span>⬇️</span></button>
+            <button id="btn-right" class="control-btn"><span>➡️</span></button>
+            <button id="btn-rotate" class="control-btn"><span>🔄</span></button>
+          </div>
           <br />
           <button id="restartButton" class="btn btn-custom mt-3">
             🔄 Reiniciar
@@ -138,6 +185,11 @@
         );
         const finalScoreDisplay = document.getElementById("finalScore");
 
+        const leftButton = document.getElementById("btn-left");
+        const rightButton = document.getElementById("btn-right");
+        const downButton = document.getElementById("btn-down");
+        const rotateButton = document.getElementById("btn-rotate");
+
         const ROWS = 20;
         const COLS = 10;
         const SIZE = 30;
@@ -147,23 +199,23 @@
         let board = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
 
         const shapes = [
-          [[1, 1, 1, 1]], // Línea
+          [[1, 1, 1, 1]],
           [
             [1, 1],
             [1, 1],
-          ], // Cuadrado
+          ],
           [
             [0, 1, 0],
             [1, 1, 1],
-          ], // T
+          ],
           [
             [1, 1, 0],
             [0, 1, 1],
-          ], // Z
+          ],
           [
             [0, 1, 1],
             [1, 1, 0],
-          ], // S
+          ],
         ];
 
         let piece = createPiece();
@@ -176,7 +228,6 @@
         function drawBoard() {
           ctx.clearRect(0, 0, canvas.width, canvas.height);
           ctx.strokeStyle = "white";
-
           for (let r = 0; r < ROWS; r++) {
             for (let c = 0; c < COLS; c++) {
               if (board[r][c]) {
@@ -218,7 +269,6 @@
           );
           let oldShape = piece.shape;
           piece.shape = newShape;
-
           if (collision()) piece.shape = oldShape;
           update();
         }
@@ -266,12 +316,10 @@
               rowsToRemove.push(r);
             }
           }
-
           rowsToRemove.forEach((rowIndex) => {
             board.splice(rowIndex, 1);
             board.unshift(Array(COLS).fill(0));
           });
-
           updateScore(rowsToRemove.length);
         }
 
@@ -310,6 +358,14 @@
           else if (event.key === "ArrowDown") moveDown();
           else if (event.key === "ArrowUp") rotatePiece();
         });
+
+        // Botones móviles
+        if (leftButton && rightButton && downButton && rotateButton) {
+          leftButton.addEventListener("click", () => movePiece(-1));
+          rightButton.addEventListener("click", () => movePiece(1));
+          downButton.addEventListener("click", moveDown);
+          rotateButton.addEventListener("click", rotatePiece);
+        }
 
         restartButton.addEventListener("click", restartGame);
         restartModalButton.addEventListener("click", () => {
