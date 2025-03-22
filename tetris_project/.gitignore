@@ -12,6 +12,4 @@ db.sqlite3
 # Ignorar migraciones de Django
 */migrations/
 
-# Ignorar archivos estáticos generados
-staticfiles/
-media/
+
